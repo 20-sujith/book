@@ -3,7 +3,7 @@ import HTMLFlipBook from 'react-pageflip';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { letters } from '../data/letters';
-import { ArrowLeft, MessageCircle } from 'lucide-react';
+import { ArrowLeft, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import confetti from 'canvas-confetti';
 import Typewriter from '../components/Typewriter';
@@ -30,6 +30,7 @@ export default function BookReader() {
   const location = useLocation();
   const navigate = useNavigate();
   const bookRef = useRef();
+  const mobileBookRef = useRef();
   const [readProgress, setReadProgress] = useLocalStorage('readLetters', []);
   const [notes, setNotes] = useLocalStorage('letterNotes', {});
   const [activeNoteLetter, setActiveNoteLetter] = useState(null);
@@ -188,7 +189,14 @@ export default function BookReader() {
       </button>
 
       {/* Desktop Book */}
-      <div className="hidden md:flex items-center justify-center w-full h-[85vh]">
+      <div className="hidden md:flex items-center justify-center w-full h-[85vh] relative">
+        <button 
+          onClick={() => bookRef.current?.pageFlip().flipPrev()} 
+          className="absolute left-8 lg:left-16 z-50 p-3 rounded-full bg-white/50 dark:bg-black/50 hover:bg-white/80 dark:hover:bg-black/80 backdrop-blur-sm shadow-md text-rose-500 hover:scale-110 transition-transform"
+        >
+          <ChevronLeft size={32} />
+        </button>
+
         <HTMLFlipBook 
           width={450} 
           height={650} 
@@ -206,10 +214,17 @@ export default function BookReader() {
         >
           {desktopPages}
         </HTMLFlipBook>
+
+        <button 
+          onClick={() => bookRef.current?.pageFlip().flipNext()} 
+          className="absolute right-8 lg:right-16 z-50 p-3 rounded-full bg-white/50 dark:bg-black/50 hover:bg-white/80 dark:hover:bg-black/80 backdrop-blur-sm shadow-md text-rose-500 hover:scale-110 transition-transform"
+        >
+          <ChevronRight size={32} />
+        </button>
       </div>
 
       {/* Mobile Book */}
-      <div className="md:hidden flex items-center justify-center w-full h-[80vh]">
+      <div className="md:hidden flex flex-col items-center justify-center w-full h-[80vh] relative">
          <HTMLFlipBook 
           width={window.innerWidth - 32} 
           height={window.innerHeight - 160} 
@@ -223,9 +238,25 @@ export default function BookReader() {
           onFlip={handleFlip}
           className="book-shadow mx-auto"
           startPage={Math.max(0, Math.floor((startPage - 2) / 2))}
+          ref={mobileBookRef}
         >
           {mobilePages}
         </HTMLFlipBook>
+
+        <div className="flex justify-between w-full max-w-[500px] px-4 mt-6 z-50">
+          <button 
+            onClick={() => mobileBookRef.current?.pageFlip().flipPrev()}
+            className="p-3 rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur-md shadow-lg text-rose-500 hover:scale-110 transition-transform flex items-center justify-center border border-rose-100 dark:border-stone-700"
+          >
+            <ChevronLeft size={28} />
+          </button>
+          <button 
+            onClick={() => mobileBookRef.current?.pageFlip().flipNext()}
+            className="p-3 rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur-md shadow-lg text-rose-500 hover:scale-110 transition-transform flex items-center justify-center border border-rose-100 dark:border-stone-700"
+          >
+            <ChevronRight size={28} />
+          </button>
+        </div>
       </div>
     </motion.div>
   );
