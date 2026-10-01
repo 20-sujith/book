@@ -192,9 +192,10 @@ export default function BookReader() {
       <div className="hidden md:flex items-center justify-center w-full h-[85vh] relative">
         <button 
           onClick={() => bookRef.current?.pageFlip().flipPrev()} 
-          className="absolute left-8 lg:left-16 z-50 p-3 rounded-full bg-white/50 dark:bg-black/50 hover:bg-white/80 dark:hover:bg-black/80 backdrop-blur-sm shadow-md text-rose-500 hover:scale-110 transition-transform"
+          className="absolute left-8 lg:left-16 z-50 px-4 py-3 rounded-full bg-white/50 dark:bg-black/50 hover:bg-white/80 dark:hover:bg-black/80 backdrop-blur-sm shadow-md text-rose-500 hover:scale-105 transition-transform flex items-center gap-2 font-medium"
         >
-          <ChevronLeft size={32} />
+          <ChevronLeft size={24} />
+          Previous
         </button>
 
         <HTMLFlipBook 
@@ -210,6 +211,7 @@ export default function BookReader() {
           onFlip={handleFlip}
           className="book-shadow"
           startPage={startPage}
+          useMouseEvents={false}
           ref={bookRef}
         >
           {desktopPages}
@@ -217,9 +219,10 @@ export default function BookReader() {
 
         <button 
           onClick={() => bookRef.current?.pageFlip().flipNext()} 
-          className="absolute right-8 lg:right-16 z-50 p-3 rounded-full bg-white/50 dark:bg-black/50 hover:bg-white/80 dark:hover:bg-black/80 backdrop-blur-sm shadow-md text-rose-500 hover:scale-110 transition-transform"
+          className="absolute right-8 lg:right-16 z-50 px-4 py-3 rounded-full bg-white/50 dark:bg-black/50 hover:bg-white/80 dark:hover:bg-black/80 backdrop-blur-sm shadow-md text-rose-500 hover:scale-105 transition-transform flex items-center gap-2 font-medium"
         >
-          <ChevronRight size={32} />
+          Next
+          <ChevronRight size={24} />
         </button>
       </div>
 
@@ -238,6 +241,7 @@ export default function BookReader() {
           onFlip={handleFlip}
           className="book-shadow mx-auto"
           startPage={Math.max(0, Math.floor((startPage - 2) / 2))}
+          useMouseEvents={false}
           ref={mobileBookRef}
         >
           {mobilePages}
@@ -246,15 +250,17 @@ export default function BookReader() {
         <div className="flex justify-between w-full max-w-[500px] px-4 mt-6 z-50">
           <button 
             onClick={() => mobileBookRef.current?.pageFlip().flipPrev()}
-            className="p-3 rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur-md shadow-lg text-rose-500 hover:scale-110 transition-transform flex items-center justify-center border border-rose-100 dark:border-stone-700"
+            className="px-5 py-3 rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur-md shadow-lg text-rose-500 hover:scale-105 transition-transform flex items-center gap-2 font-medium border border-rose-100 dark:border-stone-700"
           >
-            <ChevronLeft size={28} />
+            <ChevronLeft size={24} />
+            Previous
           </button>
           <button 
             onClick={() => mobileBookRef.current?.pageFlip().flipNext()}
-            className="p-3 rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur-md shadow-lg text-rose-500 hover:scale-110 transition-transform flex items-center justify-center border border-rose-100 dark:border-stone-700"
+            className="px-5 py-3 rounded-full bg-white/80 dark:bg-stone-800/80 backdrop-blur-md shadow-lg text-rose-500 hover:scale-105 transition-transform flex items-center gap-2 font-medium border border-rose-100 dark:border-stone-700"
           >
-            <ChevronRight size={28} />
+            Next
+            <ChevronRight size={24} />
           </button>
         </div>
       </div>
